@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+#coloring{
+    color:#30475e;
+    font-size:19px;
+}
+.form-control{
+  width:60%;
+}
+
+
+.nav-item{
+  font-size:18px;
+  padding-top:10px;
+  font-family:Poppins;
+  letter-spacing:2px;
+}
+</style>
+<div class="container">
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link " href="/home/">Home</a>
+  </li>
+ 
+  <li class="nav-item">
+    <a class="nav-link  " href="/">Items</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link " href="/mnotification/">Notifications</a>
+  </li>
+   <li class="nav-item">
+    <a class="nav-link active" href="/reallocation/">Reallocate</a>
+  </li>
+</ul>
+<div style="margin:50px;" id="coloring">
+ <form action="" method="post">
+{% csrf_token %}
+<p><label for="id_item">Item:</label> <select name="item" required id="id_item" class="form-control" >
+  <option value="">---------</option>
+{% for i in items %}
+  <option value="{{i.id}}">{{i.name}}</option>
+
+ {% endfor %}
+
+</select></p>
+<p><label for="id_initiator">Destination:</label> <select name="initiator" required id="id_initiator" class="form-control" >
+  <option value="">---------</option>
+{% for j in districts %}
+  <option value="{{j.id}}">{{j.district}}</option>
+{% endfor %}
+
+</select></p>
+<p><label for="id_approved">Approved:</label> <input type="checkbox" name="approved" id="id_approved" checked></p>
+<button type="submit" class="btn btn-primary">Submit Request</button>
+</form> 
+</div>
+
+
+</div>
+{% endblock content %}

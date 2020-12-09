@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+.bod{
+    background-color: #892cdc;
+    color:white;
+background: rgb(104,52,246);
+background: radial-gradient(circle, rgba(104,52,246,1) 11%, rgba(147,3,219,1) 100%, rgba(117,109,255,1) 100%);;
+    
+}
+.card-title {
+    font-family:Montserrat;
+    letter-spacing:3px;
+    font-weight:100;
+
+}
+.card-text {
+    font-family:Poppins;
+    letter-spacing:2px;
+    font-size:14px;
+}
+</style>
+
+
+<div class="bod">
+<div class="row">
+<div class="col-sm-6" style="padding:20vh ;">
+<h1 style="font-family:Abril Fatface;letter-spacing:3px"><strong>MSeGS </strong><br>Material Management Portal</h1>
+<h4 style="font-family:Open Sans;opacity:70%;letter-spacing:2px" >A material management portal to facilitate easy item allocation</h4>
+<br>
+<a href="{% url 'login' %}" class="btn btn-outline-light btn-lg" style="border-radius:10px;font-family:Roboto;letter-spacing:4px">Login</a>
+</div>
+<div class="col-sm-6">
+
+<img src="{% static 'm.png' %}" height="600" width="600">
+</div>
+
+
+</div>
+</div>
+<div class="container INFO" style="margin-top:5rem;"><br/></br>
+<h2 style="text-align: center;letter-spacing:3px;font-family:Abril Fatface">About MSeGS</h2><br/>
+<article style="letter-spacing:2px;font-size:14px;text-align:center;">
+Mizoram State e-Governance Society (MSEGS) was established in 2005 and is registered under the Society Registration Act, XXI of 1860. The primary objective of the Society is to administer the implementation of e-Governance projects for the overall benefit of the citizens and public by setting up the necessary administrative, financial, legal and technical framework, implementation mechanism and resources in the State of Mizoram.
+It facilitated establishment and setting up of major e-Governance projects like the State Data Center (SDC), State Wide Area Network (SWAN) and Common Service Centre (CSC) and various other e-Government projects in the state.</article>
+
+</div>
+<br>
+<hr>
+<div style="margin-top:8rem;">
+<div class="con" style="margin:3rem;">
+<h2 style="text-align: center;letter-spacing:3px;font-family:Poppins">Achievements</h2><br/>
+<div class="card-deck">
+  <div class="card" style="border-radius:1rem;box-shadow:rgba(0,0,0,0.2) 0 0 8px;">
+   
+    <div class="card-body" >
+      <h5 class="card-title">IT Resource Center</h5>
+      <p class="card-text">MSeGS has set-up IT Resource Centre in Aizawl for capacity building and empowerment of women and rural youths in the state under the financial assistance of Department of IT, Govt of India for an amount of Rs. 18.00 lakhs. </p>
+     <a href="https://msegs.mizoram.gov.in/" class="btn btn-primary" style="font-family:Anton;border-radius:2rem;">LEARN MORE</a>
+    </div>
+  </div>
+   <div class="card" style="border-radius:1rem;box-shadow:rgba(0,0,0,0.2) 0 0 8px;">
+
+    
+    <div class="card-body">
+      <h5 class="card-title">K-YAN </h5>
+      <p class="card-text">MSeGS has taken up the project known as K-YAN for creation of educational technologies infrastructure in 50 Govt middle schools.The total cost of the project is 75.00 lakhs and is funded by Govt of India, Department of IT.  </p>
+     <a href="https://msegs.mizoram.gov.in/" class="btn btn-primary" style="font-family:Anton;border-radius:2rem;">LEARN MORE</a>
+    
+    </div>
+  </div>
+   <div class="card" style="border-radius:1rem;box-shadow:rgba(0,0,0,0.2) 0 0 8px;">
+
+   
+    <div class="card-body">
+      <h5 class="card-title">Computerization of Land Records</h5>
+      <p class="card-text">MSeGS has successfully computerized Land Record Information System known as "ZORAM" under the fiancial assistance of Govt of India, Department of IT for an amount of Rs. 140.00 lacs. </p>
+     <a href="https://msegs.mizoram.gov.in/" class="btn btn-primary" style="font-family:Anton;border-radius:2rem;">LEARN MORE</a>
+    
+    </div>
+  </div>
+</div>
+</div>
+</div>
+{% endblock content %}

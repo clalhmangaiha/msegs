@@ -1,0 +1,250 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container" >
+<style>
+#coloring{
+    color:#03506f;
+    font-size:18px;
+    letter-spacing:2px;
+}
+#cheina{
+  font-family:Abril Fatface;
+  font-size:30px;
+    letter-spacing:2px;
+    
+}
+#tlemcheina{
+  font-family:Roboto,sans-serif;
+   font-size:30px;
+    letter-spacing:2px;
+}
+
+
+.nav-item{
+  font-size:18px;
+  padding-top:10px;
+  font-family:Poppins;
+  letter-spacing:2px;
+}
+
+
+</style>
+<h1 style="text-align:center;" id="cheina"><strong>{{d.district}}</strong> District</h1>
+
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link " href="/">Home</a>
+  </li>
+ 
+  <li class="nav-item">
+    <a class="nav-link active" href="/notification/">Notification</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link disabled" href="#">Contact</a>
+  </li>
+</ul>
+<div class="container-fluid " style="margin-top:2rem">
+
+
+
+<div class="card" style="box-shadow:rgba(0,0,0,0.2) 0px 0px 15px;border-radius:2rem;border:solid white 1px">
+<div class="card-body" >
+<p id="tlemcheina">New items allocated to {{d.district}}</strong></p>
+
+<table class="table table-borderless" style="text-align: center;" id="coloring">
+  <thead class="thead-light" >
+    <tr >
+      <th scope="col">#</th>
+      <th scope="col" style="text-align: left">Item</th>
+      <th scope="col">Category</th>
+      <th scope="col">Approval</th>
+      <th scope="col">Source </th>
+      <th scope="col">Source Approval </th>
+
+      <th scope="col">Current Status</th>
+
+    </tr>
+  </thead>
+  <tbody>
+  {% for i in r %}
+    <tr>
+      <th scope="row">{{forloop.counter}}</th>
+      <td style="text-align:left"><strong>{{i.item}}</strong></td>
+      <td>{{i.item.category}}</td>
+     
+      {% if i.approved %}
+        <td><i class="fa fa-check-circle" style="color:#03506f"></i></td>
+{% else %}
+     <td> <div class="spinner-grow text-primary" role="status">
+        <span class="sr-only">Waiting for Approval</span>
+      </div></td>
+{% endif %}
+
+<td><span class="badge badge-pill badge-primary">{{i.current}}</span></td>
+
+{% if i.accepted %}
+<td>
+<i class="fa fa-check-circle" style="color:#03506f"></i></td>
+
+
+ <td>
+      {% if i.completed %}
+     
+        <i class="fa fa-check-circle" style="color:#61b15a"> </i>
+        {% else %}
+      
+          <button class="btn btn-primary" type="button" disabled style="font-size: 13px">
+          <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+          In Transit
+          </button>
+            <a href="{% url 'completed' i.id %}" class="btn btn-outline-info" style="font-size: smaller;margin:1rem;">Delivered</a>
+     
+      {% endif %}
+ </td>
+{% else %}
+<td>
+<td class="btn btn-primary " type="button" disabled style="height:50%;font-size:13px;margin:10px;">
+  <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+  Waiting for Transit
+</td>
+</td>
+{% endif %}
+
+
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+</div>
+</div>
+</div>
+
+
+
+
+{% comment %} 
+
+<div id="coloring">
+{% for i in r %}
+
+
+<strong>
+{{i.item}}</strong> <i>        &nbsp; &nbsp;    </i> 
+<span style="opacity:70%">|{{i.item.category}}|     </span>
+{% if i.approved %}
+<i class="fa fa-check-circle" style="color:#03506f">Approved</i>
+{% else %}
+<div class="spinner-grow text-primary" role="status">
+  <span class="sr-only">Waiting for Approval</span>
+</div>
+{% endif %}
+―――――――――
+
+<span class="badge badge-pill badge-primary">{{i.current}}</span>
+
+{% if i.accepted %}
+<i class="fa fa-check-circle" style="color:#03506f">Accepted</i>
+
+
+―――――――
+{% if i.completed %}
+<span class="badge badge-pill badge-primary">{{i.initiator}}</span>
+<i class="fa fa-check-circle" style="color:#03506f">Completed</i>
+{% else %}
+
+<button class="btn btn-primary" type="button" disabled>
+  <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+  In Transit
+</button>
+<a href="{% url 'completed' i.id %}" class="btn btn-success">Received</a>
+
+{% endif %}
+
+{% else %}
+
+<button class="btn btn-primary" type="button" disabled>
+  <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+  Waiting for Transit
+</button>
+{% endif %}
+
+<hr>
+<br>
+{% endfor %}
+</div> {% endcomment %}
+
+<div>
+<br/>
+<div class="card" style="box-shadow:rgba(0,0,0,0.2) 1px 1px 20px;border-radius:2rem;border:solid white 2px;">
+<div class="card-body" >
+<p id="tlemcheina" >[Approval Requests]</p>
+
+<table class="table">
+  <thead class="thead-light">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Item</th>
+      <th scope="col">Category</th>
+      <th scope="col">Approved</th>
+      <th scope="col">New Allocation District</th>
+      <th scope="col">Action</th>
+      <th scope="col">Status</th>
+
+
+
+    </tr>
+  </thead>
+  <tbody>
+{% for i in k %}
+
+    <tr>
+      <th scope="row">{{forloop.counter}}</th>
+      <td>{{i.item}}</td>
+      <td>{{i.item.category}}</td>
+      
+      <td>
+      {% if i.approved %}
+          <i class="fa fa-check-circle" style="color:#03506f"></i>
+      {% else %}
+
+      {% endif %}
+      </td>
+      <td>{{i.initiator}}</td>
+      {% if i.accepted %}
+      <td><button class="btn btn-secondary " disabled>Accepted</button></td>
+      {% else %}
+      {% comment %} <td><span class="badge badge-pill badge-primary">{{i.initiator}}</span></td> {% endcomment %}
+      <td><a href="{% url 'accepted' i.id %}" class="btn btn-outline-info " >ACCEPT</a></td>
+      {% endif %}
+      <td>
+      {% if i.completed %}
+      <button class="btn btn-success inactive" style="">COMPLETED</button>
+      {% elif i.approved and i.accepted %}
+       <button class="btn btn-primary" type="button" disabled>
+          <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+          In Transit
+          </button>
+      {% else %}
+      <button class="btn btn-primary" type="button" disabled>In Process</button>
+
+      {% endif %}
+      
+    
+      </td>
+
+
+    </tr>
+  {% endfor %} 
+  </tbody>
+
+</table>
+
+</div>
+</div>
+
+
+</div>
+</div>
+{% endblock content %}

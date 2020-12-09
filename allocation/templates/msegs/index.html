@@ -1,0 +1,212 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+<style>
+td{
+    color:#30475e;
+}
+.nav-item{
+  font-size:18px;
+  padding-top:10px;
+  font-family:Poppins;
+  letter-spacing:2px;
+}
+</style>
+
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link " href="/home/">Home</a>
+  </li>
+ 
+  <li class="nav-item">
+    <a class="nav-link active " href="/">Items</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link " href="/mnotification/">Notifications</a>
+  </li>
+   <li class="nav-item">
+    <a class="nav-link " href="/reallocation/">Reallocate</a>
+  </li>
+</ul>
+
+<br>
+<div class="card" style="box-shadow: rgba(0,0,0,0.1) 0px 0px 9px;margin:1rem;border-radius:1rem;">
+  <div class="card-body">
+     <h1 style="font-family:Poppins;letter-spacing:2px;">ADD</h1>
+     <form method="POST" action="/add/" class="form-group">  
+{% csrf_token %}
+         <div class="form-row">
+          <div class="col">
+         <input type="text" name="name" class="form-control" maxlength="200" required id="id_name"></div>
+ <div class="col"><select name="district" id="id_district" class="form-control">
+ {% for i in context.districts%}
+
+  <option value="{{forloop.counter}}">{{i.district}}</option>
+{% endfor %}
+</select></div>
+<div class="col">
+ <select class="form-control"name="category" id="id_category">
+ 
+ {% for i in context.category %}
+ 
+
+  <option value="{{forloop.counter}}">{{i.name}}</option>
+
+{% endfor %}
+</select>
+</div>
+        {% comment %} <input type="submit" class="save btn btn-default"></input>  
+         {% endcomment %}
+    <button type="submit" class="btn btn-success">Add</button>
+    </p>
+    </form>
+</div>
+
+  </div>
+</div>
+
+
+<br>
+
+
+
+
+
+
+<div class="card" style="box-shadow: rgba(0,0,0,0.3) 0px 0px 9px;margin:1rem;border-radius:1rem;">
+<div class="card-body">
+
+
+    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Allocated</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Idle</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">Unallocated</a>
+  </li>
+</ul>
+
+
+<div class="tab-content" id="pills-tabContent">
+  <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+  
+
+  
+    <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Item</th>
+      <th scope="col">District Allocated</th>
+      <th scope="col">Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for i in context.items%}
+
+    <tr>
+        {% if i.district != null %}
+      <td>{{forloop.counter}}</td>
+       <td>
+        <a href="{% url 'item_info' i.id %}" style="color:#30475e">
+
+     {{i.name}}</td>
+        </a>
+      <td>{{i.district}}</td>
+      {% if i.status == 1 %}
+      <td style="background-color:#61b15a;color:white">{{i.get_status_display}}</td>
+      {% elif i.status == 2%}
+      <td style="background-color:#fff76a">{{i.get_status_display}}</td>
+
+      {% else %}
+      <td style="background-color:#ffce89">{{i.get_status_display}}</td>
+
+      {% endif %}
+        {% endif %}
+
+
+    </tr>
+      {% endfor %}
+
+   
+  </tbody>
+</table>
+  
+  </div>
+
+
+  <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+  
+  
+<h1>IDLE</h1>
+ {% for i in context.items%}
+        {% if i.status == 2 %}
+       
+        {{i.name}}--{{i.district}} --{{i.get_status_display}}
+          <form action="{% url 'changestatus' %}" method="POST">
+        {% csrf_token %}
+    <input id="{{i.id}}" type="hidden" name="id" value="{{i.id}}">
+    
+
+    {% comment %} <input id="{{i.status}}" type="text" name="status" value="1" > {% endcomment %}
+    <select id="{{i.status}}" name="status" >
+    <option value="1">ACTIVE</option>
+    <option value="2">IDLE</option>
+
+    <option value="3">REPAIR</option>
+    <input type="submit" value="OK">
+        </form>
+ <br>
+        {% endif %}
+
+        
+            
+
+    {% endfor %}
+  
+  </div>
+
+
+
+  <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+  
+  <h1>Unallocated</h1>
+
+   {% for i in context.items%}
+        {% if i.district == null %}
+       
+        {{i.name}}--{{i.district}} --{{i.get_status_display}}
+
+        
+       
+        <form action="{% url 'allocation' %}" method="POST" class="form-inline">
+        {% csrf_token %}
+    <input id="{{i.name}}" type="text" name="name" value="{{i.name}}" class="form-control" />
+    
+
+    <select id="{{i.district}}"  name="district" class="form-control" style="margin:1rem">
+        <option selected hidden>Update</option>
+
+    {% for d in context.districts %}
+    <option value="{{d}}">{{d}}</option>
+    {% endfor %}
+    </select>
+    <input type="submit" value="OK" class="btn btn-primary" style="margin:1rem" >
+        </form>
+ <br>
+        {% endif %}
+            
+    {% endfor %}</div>
+</div>
+</div>
+</div>
+
+
+
+</div>
+
+{% endblock content %}

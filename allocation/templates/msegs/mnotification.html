@@ -1,0 +1,228 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+<style>
+td{
+    color:#30475e;
+}
+.nav-item{
+  font-size:18px;
+  padding-top:10px;
+  font-family:Poppins;
+  letter-spacing:2px;
+}
+</style>
+
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link " href="/home/">Home</a>
+  </li>
+ 
+  <li class="nav-item">
+    <a class="nav-link  " href="/">Items</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" href="">Notifications</a>
+  </li>
+   <li class="nav-item">
+    <a class="nav-link " href="/reallocation/">Reallocate</a>
+  </li>
+</ul>
+<div class="card" style="box-shadow: rgba(0,0,0,0.3) 0px 0px 9px;margin:1rem;border-radius:1rem;border:solid 1px white">
+<div class="card-body">
+<p style="font-family:Poppins;letter-spacing:2px">[NEW REQUESTS]</p><br>
+
+
+<div class="card-deck">
+{% for i in r %}
+ {% if i.completed == False %}
+
+  <div class="card" style="border-radius:2rem;box-shadow:rgba(0,0,0,0.1) 0px 0px 10px;border:solid white 1px;">
+    <div class="card-body">
+      <h5 class="card-title"><strong>{{i.initiator}}</strong></h5>
+      <p class="card-text text-truncate">{{i.remarks}}</p>
+       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+  Details
+</button> 
+      <p class="card-text"><small class="text-muted">Created on {{i.created.date}}</small></p>
+    </div>
+  </div>
+  
+  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" style="border-radius:6rem;">
+  <div class="modal-dialog modal-dialog-centered" role="document" style="border-radius:6rem;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">{{i.initiator}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      {{i.remarks}}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Accept</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+ {% endfor %}
+</div>
+</div>
+</div>
+<br>
+
+<div class="card" style="box-shadow: rgba(0,0,0,0.4) 0px 0px 9px;margin:1rem;border-radius:1rem;border:solid 2px white;">
+<div class="card-body">
+<p style="font-family:Poppins;letter-spacing:2px">>IN PROCESS REALLOCATIONS</p>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Item</th>
+      <th scope="col">Category</th>
+      <th scope="col">Source</th>
+      <th scope="col">Destination</th>
+      <th scope="col">Status</th>
+
+
+    </tr>
+  </thead>
+  <tbody>
+{% for j in k %}
+    {% if j.completed == False %}
+    <tr>
+      <th scope="row">1</th>
+      <td>{{j.item}}</td>
+      <td>{{j.item.category}}</td>
+      <td>{{j.current}}</td>
+      <td>{{j.initiator}}</td>
+
+      <td>
+      {% if j.approved and j.accepted %}
+      <button class="btn btn-outline-primary" disabled>In transit</button>
+        {% elif j.approved and j.accepted == False %}
+       <button class="btn btn-outline-secondary" disabled> Waiting for approval</button>
+      {% endif %}
+      </td>
+
+    </tr>
+    {% endif %}
+{% endfor %}
+ 
+  </tbody>
+</table>
+</div>
+</div>
+{% comment %} {% for j in k %}
+    {% if j.completed == False %}
+<div class="card">
+<div class="card-body">
+{% if j.accepted  and j.approved %}
+{{j.item}} Source:{{j.current}} Destination:{{j.initiator}}
+<div class="progress">
+ <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 80%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+{% elif j.approved and j.accepted == False %}
+{{j.item}}<br> Source:{{j.current}}<br> Destination:{{j.initiator}}
+<div class="progress">
+ <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 60%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"><strong>Waiting For Approval</strong></div>
+</div>
+</div>
+</div>
+{% endif %}
+{% endif %}
+
+{% endfor %}  {% endcomment %}
+
+<br/>
+
+<div class="card" style="box-shadow: rgba(0,0,0,0.4) 0px 0px 9px;margin:1rem;border-radius:1rem;">
+<div class="card-body">
+<p style="font-family:Poppins;letter-spacing:2px">>Requests History</p>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Initiator</th>
+      <th scope="col">Items</th>
+      <th scope="col">Created on</th>
+
+      <th scope="col">Status</th>
+    </tr>
+  </thead>
+  <tbody>
+{% for i in r %}
+
+    <tr>
+      <th scope="row">{{forloop.counter}}</th>
+      <td>{{i.initiator}}</td>
+      <td>{{i.remarks}}</td>
+      <td>{{i.created}}</td>
+      {% if i.completed %}
+      <td><button class="btn btn-success">Completed</button></td>
+      {% else %}
+      <td><button class="btn btn-outline-info">In Process</button></td>
+      {% endif %}
+    
+
+    </tr>
+ {% endfor %}
+    
+  </tbody>
+</table>
+</div>
+</div>
+
+
+<div class="card" style="box-shadow: rgba(0,0,0,0.4) 0px 0px 9px;margin:1rem;border-radius:1rem;">
+<div class="card-body">
+REALLOCATIONS HISTORY
+
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Item</th>
+      <th scope="col">Category</th>
+      <th scope="col">Source</th>
+      <th scope="col">Destination</th>
+      <th scope="col">Created on</th>
+
+
+    </tr>
+  </thead>
+  <tbody>
+{% for j in k %}
+    <tr>
+      <th scope="row">{{forloop.counter}}</th>
+      <td>{{j.item}}</td>
+      <td>{{j.item.category}}</td>
+      <td>{{j.current}}</td>
+      <td>{{j.initiator}}</td>
+
+      {% comment %} <td>
+      {% if j.approved and j.accepted %}
+      <button class="btn btn-outline-primary" disabled>In transit</button>
+        {% elif j.approved and j.accepted == False %}
+       <button class="btn btn-outline-secondary" disabled> Waiting for approval</button>
+      {% endif %}
+      </td> {% endcomment %}
+      <td>{{j.created}}</td>
+
+    </tr>
+{% endfor %}
+ 
+  </tbody>
+</table>
+
+</div>
+</div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+<style>
+td{
+    color:#30475e;
+}
+.nav-item{
+  font-size:18px;
+  padding-top:10px;
+  font-family:Poppins;
+  letter-spacing:2px;
+}
+</style>
+
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link " href="/home/">Home</a>
+  </li>
+ 
+  <li class="nav-item">
+    <a class="nav-link  " href="/">Items</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link " href="/mnotification/">Notifications</a>
+  </li>
+   <li class="nav-item">
+    <a class="nav-link " href="/reallocation/">Reallocate</a>
+  </li>
+</ul>
+{% for i in districts %}
+{{i.district}}
+{% for j in requests %}
+
+
+{% comment %} {{j.initiator}} {% endcomment %}
+{% if j.initiator.district == i.district %}
+
+{{s|add:1}}
+
+
+{% endif %}
+
+
+
+{% endfor %}
+{% endfor %}
+
+</div>
+{% endblock %}

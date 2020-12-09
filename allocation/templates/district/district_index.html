@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+{% load static%}
+        <link rel="stylesheet" type="text/css" href="{% static 'css/msegs.css' %}">
+
+{% block content %}
+<style>
+td{
+    color:#30475e;
+}
+.nav-item{
+  font-size:18px;
+  padding-top:10px;
+  font-family:Poppins;
+  letter-spacing:2px;
+}
+</style>
+<div class="container">
+<h1 style="text-align:center;font-family:Abril Fatface;" ><strong>{{d.district}}</strong> District</h1>
+
+<ul class="nav nav-tabs ">
+  <li class="nav-item">
+    <a class="nav-link active" href="#">ITEMS</a>
+  </li>
+ 
+  <li class="nav-item">
+    <a class="nav-link" href="/notification/">Notification
+   {% if l %} <div class="spinner-grow text-danger" role="status" style="height:10px;width:10px;">
+  <span class="sr-only">Loading...</span>
+</div>
+    {% endif %}
+    <span class="glyphicon glyphicon-star"></span>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link disabled" href="#">Contact</a>
+  </li>
+</ul>
+{% comment %} {% for i in items %}
+{{i.name}} -- {{i.get_status_display}} 
+
+
+        <form action="{% url 'changestatus' %}" method="POST">
+                {% csrf_token %}
+                <input id="{{i.id}}" type="hidden" name="id" value="{{i.id}}">
+    
+
+                            <select id="{{i.status}}" name="status" >
+                                <option selected hidden>Update Status</option>
+                                {% if i.status == 1%}
+                                <option value="1" selected>ACTIVE</option>
+                                {% else %}
+                                <option value="1">ACTIVE</option>
+                                {% endif %}
+                                {% if i.status == 2%}
+                                <option value="2" selected>IDLE</option>
+                                {% else %}
+
+                                <option value="2">IDLE</option>
+                                {% endif %}
+                                {% if i.status == 3%}
+                                <option value="3" selected>REPAIR</option>
+                                {% else %}
+                                <option value="3">REPAIR</option>
+                                {% endif %}
+                            <input type="submit" value="OK">
+         </form><br />
+{% endfor %} {% endcomment %}
+<div class="card" style="box-shadow: rgba(0,0,0,0.3) 0px 0px 9px;margin:1rem;border-radius:1rem;">
+<div class="card-body">
+<div style="padding:1rem;margin:1rem;letter-spacing:2px;font-family:Poppins">ITEMS IN POSSESSION
+<a class="btn btn-primary float-right" type="button" href="request_item/" >Request item</a>
+</div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Item</th>
+      <th scope="col">Category</th>
+      <th scope="col">Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for i in items%}
+
+    <tr>
+        {% if i.district != null %}
+      <td>{{forloop.counter}}</td>
+       <td><strong>
+        <a href="{% url 'item_info' i.id %}" style="color:#30475e">
+
+     {{i.name}}</strong></td>
+        </a>
+      <td>{{i.category}}</td>
+      
+      {% comment %} {% if i.status == 1 %}
+      <td style="background-color:#61b15a;color:white">{{i.get_status_display}}</td>
+      {% elif i.status == 2%}
+      <td style="background-color:#fff76a">{{i.get_status_display}}</td>
+
+      {% else %}
+      <td style="background-color:#ffce89">{{i.get_status_display}}</td>
+
+      {% endif %} {% endcomment %}
+
+      <td><div class="dropdown show">
+      {% if i.status == 1 %}
+  <a class="btn btn-success dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+   {{i.get_status_display}}
+  </a>
+  {% elif i.status == 2 %}
+   <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+   {{i.get_status_display}}
+  </a>
+  {% else %}
+  <a class="btn btn-danger dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+   {{i.get_status_display}}
+  </a>
+  {% endif %}
+
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+    <a class="dropdown-item" href="{% url 'changestates' i.id 1 %}">Active</a>
+    <a class="dropdown-item" href="{% url 'changestates' i.id 2 %}">IDLE</a>
+    <a class="dropdown-item" href="{% url 'changestates' i.id 3 %}">Repair</a>
+  </div>
+</div></td>
+        {% endif %}
+
+
+
+
+
+    </tr>
+      {% endfor %}
+
+   
+  </tbody>
+</table>
+</div>
+</div>
+{% endblock content %}

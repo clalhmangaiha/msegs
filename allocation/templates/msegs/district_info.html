@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+
+District Name:{{district.district}}
+Manager Info:{{profile.user}}
+Items Allocated:
+{% for i in items %}
+{{i.name}} -- {{i.status}}
+
+{% endfor %}
+Total number of items allocated:{{items.count}}
+
+{% endblock content %}

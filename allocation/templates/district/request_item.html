@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% comment %} 
+<form action="" method="post">
+{% csrf_token %}
+{{form.as_p}}
+<button type="submit" class="btn btn">Submit Request</button>
+</form> {% endcomment %}
+
+<style>
+td{
+    color:#30475e;
+}
+.nav-item{
+  font-size:18px;
+  padding-top:10px;
+  font-family:Poppins;
+  letter-spacing:2px;
+}
+</style>
+<div class="container">
+
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link " href="/">Home</a>
+  </li>
+ 
+  <li class="nav-item">
+    <a class="nav-link " href="/notification/">Notification</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link " href="#">Contact</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" href="#">Request</a>
+  </li>
+</ul>
+<div  style="padding:2rem;text-align:center;">
+<h1 style="letter-spacing:2px;font-family:Poppins">ENTER ITEMS</h1>
+<form action="" method="post">
+{% csrf_token %}
+ <textarea name="remarks" cols="60" rows="15" id="id_remarks" style="border-radius: 1px">
+</textarea>
+  <br>
+<button type="submit" class="btn btn-success "  >Submit Request</button>
+</form>
+</div>
+</div>
+{% endblock content %}
