@@ -1,3 +1,6 @@
+<<<<<<< HEAD
 A
 B
 
+=======
+>>>>>>> parent of 11c5088... ADDED
